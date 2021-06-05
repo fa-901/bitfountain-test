@@ -4,29 +4,25 @@ import { Fragment } from 'react';
 import Login from './components/Login';
 
 interface Props {
-	
+
+}
+
+interface State {
+	isLogin: boolean,
 }
 
 class App extends React.Component<Props> {
-	constructor(props: any) {
-		super(props);
+	state: State = {
+		isLogin: false,
+	};
 
-		this.state = {
-			isLogin: false,
-		}
-	}
+	
 
 	render() {
 		return (
-			<Fragment>
-				<h1>
-					Hello
-				</h1>
-				<button type="button" className="btn btn-primary">
-					This is a bootstrap button
-					<Login/>
-				</button>
-			</Fragment>
+			<div className='container'>
+				<Login onLogin={(e) => { this.setState({ isLogin: e }) }} />
+			</div>
 		);
 	}
 }
