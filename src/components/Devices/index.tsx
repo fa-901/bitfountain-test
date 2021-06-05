@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Fragment } from 'react';
 
 interface Props {
-
+    token: string,
 }
 
 interface State {

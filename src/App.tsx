@@ -10,23 +10,25 @@ interface Props {
 
 interface State {
 	isLogin: boolean,
+	token: string,
 }
 
 class App extends React.Component<Props> {
 	state: State = {
 		isLogin: false,
+		token: '',
 	};
 
 	render() {
-		const { isLogin } = this.state;
+		const { isLogin, token } = this.state;
 
 		const display = isLogin ?
 			(
-				<Devices />
+				<Devices token={token} />
 			)
 			:
 			(
-				<Login onLogin={(e) => { this.setState({ isLogin: e }) }} />
+				<Login onLogin={(e) => { this.setState({ isLogin: true, token: e }) }} />
 			)
 
 		return (

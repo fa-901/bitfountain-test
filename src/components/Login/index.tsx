@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Fragment } from 'react';
 
 interface Props {
-    onLogin: (e: boolean) => void
+    onLogin: (e: string) => void
 }
 
 interface State {
@@ -42,8 +42,8 @@ export default class Login extends React.Component<Props> {
         })
             .then(response => response.json())
             .then(data => {
-                if (data.user) {
-                    this.props.onLogin(true);
+                if (data.user || data.access_token) {
+                    this.props.onLogin(data.access_token);
                 }
                 else {
                     this.setState({ isErr: true, })
