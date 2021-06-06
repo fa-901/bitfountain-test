@@ -85,6 +85,33 @@ export default class Devices extends React.Component<Props> {
         return table;
     }
 
+    createModelTable = () => {
+        const { modelData, detailsLoading } = this.state;
+
+        const tableColumns: IDataTableColumn[] = [
+            { "selector": 'Id', sortable: true, "name": 'ID' },
+            { "selector": 'Brand', sortable: true, "name": 'Brand' },
+            { "selector": 'DisplayName', sortable: true, "name": 'Name' },
+            { "selector": 'Description', sortable: true, "name": 'Description' },
+        ];
+
+        var table = (
+            <DataTable
+                pointerOnHover
+                noHeader
+                data={modelData}
+                columns={tableColumns}
+                fixedHeader={false}
+                progressPending={detailsLoading}
+                progressComponent={<Spinner animation={'border'} variant="standard" />}
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={{ noRowsPerPage: true }}
+            />
+        )
+        return table;
+    }
+
     loadDetails = (e: Device) => {
         this.toggleModal();
         this.setState({ detailsLoading: true });
@@ -122,12 +149,12 @@ export default class Devices extends React.Component<Props> {
             <Fragment>
                 <h5>Device list</h5>
                 {this.createTable()}
-                <Modal show={showDetails} onHide={this.toggleModal}>
+                <Modal show={showDetails} onHide={this.toggleModal} size="xl">
                     <Modal.Header closeButton>
-                        <Modal.Title>Device Details</Modal.Title>
+                        <Modal.Title>Model Data</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-
+                        {this.createModelTable()}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.toggleModal}>
