@@ -48,12 +48,18 @@ class App extends React.Component<Props> {
 		sessionStorage.setItem("login", JSON.stringify(data));
 	}
 
+	/**on logout clear session storage */
+	onLogout =()=>{
+		this.setState({ isLogin: false, token: '' });
+		sessionStorage.removeItem("login");
+	}
+
 	render() {
 		const { isLogin, token } = this.state;
 
 		const display = isLogin ?
 			(
-				<Devices token={token} />
+				<Devices token={token} onLogout={this.onLogout} />
 			)
 			:
 			(

@@ -6,6 +6,7 @@ import AddDevice from './AddDevice';
 
 interface Props {
     token: string,
+    onLogout: ()=>void,
 }
 
 interface Device {
@@ -154,9 +155,14 @@ export default class Devices extends React.Component<Props> {
                 <Accordion>
                     <div className="d-flex align-items-center form-group">
                         <h5>Device list</h5>
-                        <Accordion.Toggle as={Button} variant="primary" eventKey="0" className='ml-auto'>
-                            Add New Device
-                        </Accordion.Toggle>
+                        <div className='btn-group ml-auto'>
+                            <Accordion.Toggle as={Button} variant="outline-primary" eventKey="0" className=''>
+                                Add New Device
+                            </Accordion.Toggle>
+                            <Button variant="outline-danger" onClick={this.props.onLogout}>
+                                Logout
+                            </Button>
+                        </div>
                     </div>
                     <Accordion.Collapse eventKey="0">
                         <AddDevice token={this.props.token} reload={this.loadDevices} />
