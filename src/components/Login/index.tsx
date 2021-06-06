@@ -29,7 +29,7 @@ export default class Login extends React.Component<Props> {
 
     validate = () => {
         const { user, pass } = this.state;
-        const url: string = `https://163.47.115.230:30000/api/login`;
+        const url: string = `http://163.47.115.230:30000/api/login`;
         const data: object = {
             "email": user,
             "password": pass

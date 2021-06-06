@@ -39,7 +39,7 @@ export default class Devices extends React.Component<Props> {
 
     /**loads list of model types */
     loadDevices = () => {
-        const url: string = `https://163.47.115.230:30000/api/overview/modeltype`;
+        const url: string = `http://163.47.115.230:30000/api/overview/modeltype`;
         this.setState({ tableLoading: true });
 
         fetch(url, {
@@ -130,7 +130,7 @@ export default class Devices extends React.Component<Props> {
     loadDetails = (e: Device) => {
         this.toggleModal();
         this.setState({ detailsLoading: true });
-        const url = `https://163.47.115.230:30000/api/overview/modeldata/${e.BrandId}/${e.Name}`;
+        const url = `http://163.47.115.230:30000/api/overview/modeldata/${e.BrandId}/${e.Name}`;
         fetch(url, {
             method: 'GET',
             headers: {
