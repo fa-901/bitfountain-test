@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Fragment } from 'react';
-import { Modal, Spinner, Button } from 'react-bootstrap';
+import { Modal, Spinner, Button, Accordion } from 'react-bootstrap';
 import DataTable, { IDataTableColumn } from 'react-data-table-component';
+import AddDevice from './AddDevice';
 
 interface Props {
     token: string,
@@ -90,7 +91,9 @@ export default class Devices extends React.Component<Props> {
 
         const tableColumns: IDataTableColumn[] = [
             { "selector": 'Id', sortable: true, "name": 'ID' },
+            { "selector": 'DataType', sortable: true, "name": 'Data Type' },
             { "selector": 'Brand', sortable: true, "name": 'Brand' },
+            { "selector": 'Model', sortable: true, "name": 'Model' },
             { "selector": 'DisplayName', sortable: true, "name": 'Name' },
             { "selector": 'Description', sortable: true, "name": 'Description' },
         ];
@@ -147,7 +150,17 @@ export default class Devices extends React.Component<Props> {
 
         return (
             <Fragment>
-                <h5>Device list</h5>
+                <Accordion>
+                    <div className="d-flex align-items-center form-group">
+                        <h5>Device list</h5>
+                        <Accordion.Toggle as={Button} variant="primary" eventKey="0" className='ml-auto'>
+                            Add New Device
+                        </Accordion.Toggle>
+                    </div>
+                    <Accordion.Collapse eventKey="0">
+                        <AddDevice/>
+                    </Accordion.Collapse>
+                </Accordion>
                 {this.createTable()}
                 <Modal show={showDetails} onHide={this.toggleModal} size="xl">
                     <Modal.Header closeButton>
