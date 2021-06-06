@@ -36,6 +36,7 @@ export default class AddDevice extends React.Component<Props> {
         this.loadOptions();
     }
 
+    /**options are used in dropdown select */
     loadOptions = () => {
         /**removed limit & page to get all options */
         const url: string = `http://163.47.115.230:30000/api/devicetype`;
@@ -111,6 +112,7 @@ export default class AddDevice extends React.Component<Props> {
         })
     }
 
+    /**clears form after submission */
     clear = () => {
         this.setState({
             brand: '',

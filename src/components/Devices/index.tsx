@@ -32,6 +32,7 @@ export default class Devices extends React.Component<Props> {
         showDetails: false,
     };
 
+    /**load model types on mount */
     componentDidMount() {
         this.loadDevices();
     }
@@ -58,6 +59,7 @@ export default class Devices extends React.Component<Props> {
             });
     }
 
+    /**creates a table view */
     createTable = () => {
         const { deviceData, tableLoading } = this.state;
 
@@ -138,7 +140,7 @@ export default class Devices extends React.Component<Props> {
             });
     }
 
-
+    /**switches the state of the model data modal */
     toggleModal = () => {
         this.setState((p: State) => {
             return {

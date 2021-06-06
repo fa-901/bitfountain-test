@@ -57,6 +57,7 @@ class App extends React.Component<Props> {
 	render() {
 		const { isLogin, token } = this.state;
 
+		/**if not logged in, show login component */
 		const display = isLogin ?
 			(
 				<Devices token={token} onLogout={this.onLogout} />
