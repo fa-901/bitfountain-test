@@ -17,7 +17,6 @@ interface Device {
 interface State {
     deviceData: Device[],
     modelData: [],
-    page: number,
     tableLoading: boolean,
     detailsLoading: boolean,
     showDetails: boolean,
@@ -27,7 +26,6 @@ export default class Devices extends React.Component<Props> {
     state: State = {
         deviceData: [],
         modelData: [],
-        page: 1,
         tableLoading: false,
         detailsLoading: false,
         showDetails: false,
@@ -158,7 +156,7 @@ export default class Devices extends React.Component<Props> {
                         </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
-                        <AddDevice/>
+                        <AddDevice token={this.props.token} reload={this.loadDevices} />
                     </Accordion.Collapse>
                 </Accordion>
                 {this.createTable()}
