@@ -29,3 +29,4 @@ Open `localhost:1234` in your browser
 
 ### Notes/Assumptions:
 - The 'access_token' from the API is used in the authorization header. Without an updated access token, the APIs return 403 error.
+- No UI design is provided, so I have used Bootstrap.
