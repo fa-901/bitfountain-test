@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Fragment } from 'react';
+import { Spinner } from 'react-bootstrap';
 
 interface Props {
     onLogin: (e: string) => void
@@ -8,7 +9,8 @@ interface Props {
 interface State {
     user: string,
     pass: string,
-    isErr: boolean
+    isErr: boolean,
+    loading: boolean,
 }
 
 export default class Login extends React.Component<Props> {
@@ -16,6 +18,7 @@ export default class Login extends React.Component<Props> {
         user: '',
         pass: '',
         isErr: false,
+        loading: false,
     };
 
     inputChange = (e: any) => {
@@ -31,6 +34,7 @@ export default class Login extends React.Component<Props> {
             "email": user,
             "password": pass
         }
+        this.setState({ loading: true })
 
         fetch(url, {
             method: 'POST',
@@ -46,7 +50,7 @@ export default class Login extends React.Component<Props> {
                     this.props.onLogin(data.access_token);
                 }
                 else {
-                    this.setState({ isErr: true, })
+                    this.setState({ isErr: true, loading: false })
                 }
             })
             .catch((error) => {
@@ -55,16 +59,23 @@ export default class Login extends React.Component<Props> {
     }
 
     render() {
-        const { user, pass, isErr } = this.state;
+        const { user, pass, isErr, loading } = this.state;
 
         return (
-            <div className="form-signin text-center">
-                <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-                <label htmlFor="inputEmail" className="sr-only">Email address</label>
-                <input type="email" id="inputEmail" className="form-control" placeholder="Email address" value={user} onChange={this.inputChange} name='user' />
-                <label htmlFor="inputPassword" className="sr-only" >Password</label>
-                <input type="password" id="inputPassword" className="form-control" placeholder="Password" value={pass} onChange={this.inputChange} name='pass' />
-                <button className="btn btn-lg btn-primary mt-2" onClick={this.validate}>Sign in</button>
+            <div className="form-group">
+                <h3 className="text-center mb-3 my font-weight-normal">Please sign in</h3>
+                <div className="form-row">
+                    <div className="form-group col-md-6">
+                        <label htmlFor="inputEmail">Email</label>
+                        <input type="email" id="inputEmail" className="form-control" placeholder="Email address" value={user} onChange={this.inputChange} name='user' />
+                    </div>
+                    <div className="form-group col-md-6">
+                        <label htmlFor="inputPassword">Password</label>
+                        <input type="password" id="inputPassword" className="form-control" placeholder="Password" value={pass} onChange={this.inputChange} name='pass' />
+                    </div>
+                </div>
+                <button className="btn btn-primary" onClick={this.validate}>Sign in</button>
+                <Spinner animation={loading ? "border" : ''} variant="primary" className='ml-2 align-middle' />
                 {isErr && <div className='text-danger'>User/pass is wrong</div>}
             </div>
         )
