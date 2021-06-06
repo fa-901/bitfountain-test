@@ -68,13 +68,21 @@ export default class Devices extends React.Component<Props> {
             { "selector": 'BrandId', sortable: true, "name": 'Brand' },
             { "selector": 'Name', sortable: true, "name": 'Model' },
             { "selector": 'Description', sortable: true, "name": 'Description' },
+            { "selector": 'Action', sortable: true, "name": 'Action' },
         ];
+
+        const tableRows = deviceData.map((e) => {
+            let btn = <Button variant='outline-info' size='sm' onClick={() => { this.loadDetails(e) }}>View Model Data</Button>
+            return {
+                ...e, Action: btn
+            }
+        })
 
         var table = (
             <DataTable
                 pointerOnHover
                 noHeader
-                data={deviceData}
+                data={tableRows}
                 columns={tableColumns}
                 fixedHeader={false}
                 progressPending={tableLoading}
