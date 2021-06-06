@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Fragment } from 'react';
-import { Table, Spinner, Pagination } from 'react-bootstrap';
+import { Modal, Spinner, Button } from 'react-bootstrap';
 import DataTable, { IDataTableColumn } from 'react-data-table-component';
 
 interface Props {
@@ -15,17 +15,21 @@ interface Device {
 }
 interface State {
     deviceData: Device[],
+    modelData: [],
     page: number,
     tableLoading: boolean,
-    deviceLoading: boolean,
+    detailsLoading: boolean,
+    showDetails: boolean,
 }
 
 export default class Devices extends React.Component<Props> {
     state: State = {
         deviceData: [],
+        modelData: [],
         page: 1,
         tableLoading: false,
-        deviceLoading: false,
+        detailsLoading: false,
+        showDetails: false,
     };
 
     componentDidMount() {
@@ -59,7 +63,7 @@ export default class Devices extends React.Component<Props> {
         const tableColumns: IDataTableColumn[] = [
             { "selector": 'Id', sortable: true, "name": 'ID' },
             { "selector": 'BrandId', sortable: true, "name": 'Brand' },
-            { "selector": 'Name', sortable: true, "name": 'Name' },
+            { "selector": 'Name', sortable: true, "name": 'Model' },
             { "selector": 'Description', sortable: true, "name": 'Description' },
         ];
 
@@ -74,24 +78,63 @@ export default class Devices extends React.Component<Props> {
                 onRowClicked={(e) => { this.loadDetails(e) }}
                 progressComponent={<Spinner animation={'border'} variant="standard" />}
                 pagination
-                paginationPerPage={10}
+                paginationPerPage={20}
                 paginationComponentOptions={{ noRowsPerPage: true }}
             />
         )
         return table;
     }
 
-    loadDetails = (e: object) => {
-        console.log(e)
+    loadDetails = (e: Device) => {
+        this.toggleModal();
+        this.setState({ detailsLoading: true });
+        const url = `http://163.47.115.230:30000/api/overview/modeldata/${e.BrandId}/${e.Name}`;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'authorization': this.props.token,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ modelData: data, detailsLoading: false });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+
+    toggleModal = () => {
+        this.setState((p: State) => {
+            return {
+                showDetails: !p.showDetails,
+            }
+        })
     }
 
     render() {
-        const { tableLoading } = this.state;
+        const { tableLoading, showDetails } = this.state;
 
         return (
             <Fragment>
                 <h5>Device list</h5>
                 {this.createTable()}
+                <Modal show={showDetails} onHide={this.toggleModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Device Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.toggleModal}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Fragment>
         )
     }

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
+/**Error boundary is coded in JS as it is only a wrapper and not pertaining to the main application */
 export default class ErrorBoundary extends Component {
     constructor(props) {
         super(props);
