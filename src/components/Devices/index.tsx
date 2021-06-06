@@ -35,6 +35,7 @@ export default class Devices extends React.Component<Props> {
         this.loadDevices();
     }
 
+    /**loads list of model types */
     loadDevices = () => {
         const url: string = `http://163.47.115.230:30000/api/overview/modeltype`;
         this.setState({ tableLoading: true });
@@ -84,6 +85,7 @@ export default class Devices extends React.Component<Props> {
         return table;
     }
 
+    /**creates a table view */
     createModelTable = () => {
         const { modelData, detailsLoading } = this.state;
 
@@ -113,6 +115,7 @@ export default class Devices extends React.Component<Props> {
         return table;
     }
 
+    /** loads model data */
     loadDetails = (e: Device) => {
         this.toggleModal();
         this.setState({ detailsLoading: true });

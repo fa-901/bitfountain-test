@@ -19,6 +19,35 @@ class App extends React.Component<Props> {
 		token: '',
 	};
 
+	/**check for session storage initially */
+	componentDidMount() {
+		var data: any = sessionStorage.getItem("login");
+		if (!data) {
+			return
+		}
+		data = data ? JSON.parse(data) : {}
+		const now: number = new Date().getTime();
+		const sessionTime: number = new Date(data.date).getTime();
+		if (sessionTime > now) {
+			this.setState({
+				isLogin: true,
+				token: data.token,
+			})
+		}
+	}
+
+	/**on login create new session with 24 hours validity */
+	onLogin = (e: string) => {
+		this.setState({ isLogin: true, token: e })
+		var tomorrow = new Date();
+		tomorrow.setDate(tomorrow.getDate() + 1);
+		let data: object = {
+			token: e,
+			date: tomorrow.toISOString(),
+		}
+		sessionStorage.setItem("login", JSON.stringify(data));
+	}
+
 	render() {
 		const { isLogin, token } = this.state;
 
@@ -28,7 +57,7 @@ class App extends React.Component<Props> {
 			)
 			:
 			(
-				<Login onLogin={(e) => { this.setState({ isLogin: true, token: e }) }} />
+				<Login onLogin={(e) => { this.onLogin(e) }} />
 			)
 
 		return (
